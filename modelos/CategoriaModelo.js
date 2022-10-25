@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const categoriaSchema = mongoose.Schema({
     nombre: { type: String, maxLength: 40, required: true, unique: true },
     disponible: { type: Boolean, required: true },
-    imagen : { type:String, maxLength:40, required:true, unique:true }
+    imagen: { type: String, maxLength: 40, required: true, unique: true }
 });
 
 // Creacion y exportacion del modelo de nombre categorias y, apartir del esquema creado (categoriaSchema).

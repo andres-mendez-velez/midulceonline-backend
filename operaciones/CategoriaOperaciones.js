@@ -52,7 +52,7 @@ CategoriaOperaciones.consultarCategoria = async (req, res) => {
     }
 }
 
-CategoriaOperaciones.modificarCategoria = async(req, res) => {
+CategoriaOperaciones.modificarCategoria = async (req, res) => {
     try {
         const id = req.params.id;
         const body = req.body;
@@ -62,14 +62,14 @@ CategoriaOperaciones.modificarCategoria = async(req, res) => {
             imagen: body.imagen
         }
         console.log(categoria);
-        const categoriaActualizada = await CategoriaModelo.findByIdAndUpdate(id, categoria, {new: true});
+        const categoriaActualizada = await CategoriaModelo.findByIdAndUpdate(id, categoria, { new: true });
         res.status(200).send(categoriaActualizada);
     } catch (error) {
         res.status(400).send("Mala petición. " + error);
     }
 }
 
-CategoriaOperaciones.eliminarCategoria = async(req, res) => {
+CategoriaOperaciones.eliminarCategoria = async (req, res) => {
     try {
         const id = req.params.id;
         const categoriaBorrada = await CategoriaModelo.findByIdAndDelete(id);
