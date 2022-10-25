@@ -23,4 +23,4 @@ app.get("/", (req, res) => {
     res.send("API iniciado"); // Enviar mensaje a la pagina
 }); // Llamar la pagina directamente a la raiz, atraves del metodo get (cuando se hacen llamados el metodo get solicita el request y el response))
 
-app.use("/categorias", require("./rutas/CategoriaRutas")); // Se indica la ruta en la que se accede a la lista de categorias
+app.use("/api/categorias", require("./rutas/CategoriaRutas")); // (Ruta general) Se indica la ruta en la que se accede a la lista de categorias

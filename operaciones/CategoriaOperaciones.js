@@ -6,7 +6,6 @@ const CategoriaOperaciones = {}; // Objeto para guardar todos los metodos CRUD p
 CategoriaOperaciones.crearCategorias = async (req, res) => {
     try {
         const objeto = req.body; // Obtener la informacion desde el body
-        //console.log(objeto);
         const categoria = new CategoriaModelo(objeto);
         const categoriaGuardada = await categoria.save();
         res.status(201).send(categoriaGuardada); // 201 => Se pudo crear la información encargada
@@ -17,7 +16,18 @@ CategoriaOperaciones.crearCategorias = async (req, res) => {
 
 CategoriaOperaciones.consultarCategorias = async (req, res) => {
     try {
-        const listaCategorias = await CategoriaModelo.find();
+        const filtro = req.query;
+        let listaCategorias;
+        if (filtro.nombre != null) {
+            listaCategorias = await CategoriaModelo.find({
+                "$or": [
+                    { "nombre": { $regex: filtro.nombre, $options: "i" } }
+                ]
+            });
+        }
+        else {
+            listaCategorias = await CategoriaModelo.find();
+        }
         if (listaCategorias.length > 0) {
             res.status(200).send(listaCategorias); // Generar status 200 = OK y, enviar la lista de categorias obtenidas
         } else {
@@ -26,7 +36,7 @@ CategoriaOperaciones.consultarCategorias = async (req, res) => {
     } catch (error) {
         res.status(400).send("Mala petición" + error); // Peticion mal hecha
     }
-}; // Como los metodos trabajan con el protocolo http se va a estar haciendo request y response, ademas de que al usarse una conexion a un BD estos metodos son promises
+} // Como los metodos trabajan con el protocolo http se va a estar haciendo request y response, ademas de que al usarse una conexion a un BD estos metodos son promises
 
 CategoriaOperaciones.consultarCategoria = async (req, res) => {
     try {
@@ -40,7 +50,34 @@ CategoriaOperaciones.consultarCategoria = async (req, res) => {
     } catch (error) {
         res.status(400).send("Mala petición" + error); // Peticion mal hecha
     }
-};
+}
+
+CategoriaOperaciones.modificarCategoria = async(req, res) => {
+    try {
+        const id = req.params.id;
+        const body = req.body;
+        const categoria = {
+            nombre: body.nombre,
+            disponible: body.disponible,
+            imagen: body.imagen
+        }
+        console.log(categoria);
+        const categoriaActualizada = await CategoriaModelo.findByIdAndUpdate(id, categoria, {new: true});
+        res.status(200).send(categoriaActualizada);
+    } catch (error) {
+        res.status(400).send("Mala petición. " + error);
+    }
+}
+
+CategoriaOperaciones.eliminarCategoria = async(req, res) => {
+    try {
+        const id = req.params.id;
+        const categoriaBorrada = await CategoriaModelo.findByIdAndDelete(id);
+        res.status(200).send(categoriaBorrada);
+    } catch (error) {
+        res.status(400).send("Mala petición " + error);
+    }
+}
 
 // Exportacion del archivo:
 module.exports = CategoriaOperaciones;
