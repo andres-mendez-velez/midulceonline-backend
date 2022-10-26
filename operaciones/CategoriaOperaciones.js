@@ -10,9 +10,9 @@ CategoriaOperaciones.crearCategorias = async (req, res) => {
         const categoriaGuardada = await categoria.save();
         res.status(201).send(categoriaGuardada); // 201 => Se pudo crear la información encargada
     } catch (error) {
-        res.status(400).send("Mala petición." + error);
+        res.status(400).send("Mala petición. " + error);
     }
-}
+};
 
 CategoriaOperaciones.consultarCategorias = async (req, res) => {
     try {
@@ -34,9 +34,9 @@ CategoriaOperaciones.consultarCategorias = async (req, res) => {
             res.status(404).send("No hay datos"); // Generar status 404 = No encontrado y, enviar un mensaje a la pagina
         }
     } catch (error) {
-        res.status(400).send("Mala petición" + error); // Peticion mal hecha
+        res.status(400).send("Mala petición. " + error); // Peticion mal hecha
     }
-} // Como los metodos trabajan con el protocolo http se va a estar haciendo request y response, ademas de que al usarse una conexion a un BD estos metodos son promises
+}; // Como los metodos trabajan con el protocolo http se va a estar haciendo request y response, ademas de que al usarse una conexion a un BD estos metodos son promises
 
 CategoriaOperaciones.consultarCategoria = async (req, res) => {
     try {
@@ -45,12 +45,12 @@ CategoriaOperaciones.consultarCategoria = async (req, res) => {
         if (categoria != null) {
             res.status(200).send(categoria); // Generar status 200 = OK y, enviar la lista de categorias obtenidas
         } else {
-            res.status(404).send("No hay datos"); // Generar status 404 = No encontrado y, enviar un mensaje a la pagina
+            res.status(404).send("No hay datos."); // Generar status 404 = No encontrado y, enviar un mensaje a la pagina
         }
     } catch (error) {
-        res.status(400).send("Mala petición" + error); // Peticion mal hecha
+        res.status(400).send("Mala petición. " + error); // Peticion mal hecha
     }
-}
+};
 
 CategoriaOperaciones.modificarCategoria = async (req, res) => {
     try {
@@ -60,14 +60,14 @@ CategoriaOperaciones.modificarCategoria = async (req, res) => {
             nombre: body.nombre,
             disponible: body.disponible,
             imagen: body.imagen
-        }
+        };
         console.log(categoria);
         const categoriaActualizada = await CategoriaModelo.findByIdAndUpdate(id, categoria, { new: true });
         res.status(200).send(categoriaActualizada);
     } catch (error) {
         res.status(400).send("Mala petición. " + error);
     }
-}
+};
 
 CategoriaOperaciones.eliminarCategoria = async (req, res) => {
     try {
@@ -77,7 +77,7 @@ CategoriaOperaciones.eliminarCategoria = async (req, res) => {
     } catch (error) {
         res.status(400).send("Mala petición " + error);
     }
-}
+};
 
 // Exportacion del archivo:
 module.exports = CategoriaOperaciones;

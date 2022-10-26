@@ -24,3 +24,4 @@ app.get("/", (req, res) => {
 }); // Llamar la pagina directamente a la raiz, atraves del metodo get (cuando se hacen llamados el metodo get solicita el request y el response))
 
 app.use("/api/categorias", require("./rutas/CategoriaRutas")); // (Ruta general) Se indica la ruta en la que se accede a la lista de categorias
+app.use("/api/productos", require("./rutas/ProductoRutas"));
