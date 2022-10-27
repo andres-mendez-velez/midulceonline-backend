@@ -16,10 +16,15 @@ ProductoOperaciones.consultarProductos = async (req, res) => {
     try {
         const filtro = req.query;
         let listaProductos;
-        if (filtro.nombre != null) {
+        if (filtro.q != null) {
             listaProductos = await ProductoModelo.find({
                 "$or": [
-                    { "nombre": { $regex: filtro.nombre, $options: "i" } }
+                    { "nombre": { $regex: filtro.q, $options: "i" } },
+                    { "keywords": { $regex: filtro.q, $options: "i" } },
+                    { "disponible": { $regex: filtro.q } },
+                    { "categoria": { $regex: filtro.q, $options: "i" } },
+                    { "marca": { $regex: filtro.q, $options: "i" } },
+                    //{ "precio": { $regex: filtro.q} }
                 ]
             });
         } else {
@@ -58,6 +63,7 @@ ProductoOperaciones.modificarProducto = async (req, res) => {
             nombre: body.nombre,
             marca: body.marca,
             presentacion: body.presentacion,
+            cantidad: body.cantidad,
             precio: body.precio,
             keywords: body.keywords,
             disponible: body.disponible,
@@ -66,7 +72,11 @@ ProductoOperaciones.modificarProducto = async (req, res) => {
         };
         console.log(producto);
         const productoActualizado = await ProductoModelo.findByIdAndUpdate(id, producto, { new: true });
-        res.status(200).send(productoActualizado);
+        if (productoActualizado != null) {
+            res.status(200).send(productoActualizado);
+        } else {
+            res.status(404).send("No hay datos.");
+        }
     } catch (error) {
         res.status(400).send("Mala petición. " + error);
     }
