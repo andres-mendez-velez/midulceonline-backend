@@ -22,12 +22,11 @@ CategoriaOperaciones.consultarCategorias = async (req, res) => {
             listaCategorias = await CategoriaModelo.find({
                 "$or": [
                     { "nombre": { $regex: filtro.q, $options: "i" } },
-                    { "disponibilidad": { $regex: filtro.q} }
                 ]
             });
         }
         else {
-            listaCategorias = await CategoriaModelo.find();
+            listaCategorias = await CategoriaModelo.find(filtro);
         }
         if (listaCategorias.length > 0) {
             res.status(200).send(listaCategorias); // Generar status 200 = OK y, enviar la lista de categorias obtenidas

@@ -20,15 +20,13 @@ ProductoOperaciones.consultarProductos = async (req, res) => {
             listaProductos = await ProductoModelo.find({
                 "$or": [
                     { "nombre": { $regex: filtro.q, $options: "i" } },
-                    { "keywords": { $regex: filtro.q, $options: "i" } },
-                    { "disponible": { $regex: filtro.q } },
-                    { "categoria": { $regex: filtro.q, $options: "i" } },
                     { "marca": { $regex: filtro.q, $options: "i" } },
-                    //{ "precio": { $regex: filtro.q} }
+                    { "keywords": { $regex: filtro.q, $options: "i" } },
+                    { "categoria": { $regex: filtro.q, $options: "i" } }
                 ]
             });
         } else {
-            listaProductos = await ProductoModelo.find();
+            listaProductos = await ProductoModelo.find(filtro);
         }
 
         if (listaProductos.length > 0) {
