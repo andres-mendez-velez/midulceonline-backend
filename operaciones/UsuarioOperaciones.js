@@ -60,6 +60,7 @@ UsuarioOperaciones.modificarUsuario = async (req, res) => {
             direccion: body.direccion,
             telefono: body.telefono,
             correo: body.correo,
+            password: body.password
         };
         console.log(usuario);
         const usuarioActualizado = await UsuarioModelo.findByIdAndUpdate(id, usuario, { new: true });
