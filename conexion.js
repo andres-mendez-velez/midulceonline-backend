@@ -12,13 +12,6 @@ const conectar = async () => {
     } catch (error) {
         console.log("Error en la conexion. " + error);
     }
-
-    /*
-    Segunda forma del try-catch para Promises:
-    mongoose.connect(URI)
-        .then(()=>{console.log("Atlas en linea")})
-        .catch((error)=>{console.log("Error en la conexion. " + error)});
-    */
 }
 
 conectar();

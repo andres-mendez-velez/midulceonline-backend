@@ -25,3 +25,4 @@ app.get("/", (req, res) => {
 
 app.use("/api/categorias", require("./rutas/CategoriaRutas")); // (Ruta general) Se indica la ruta en la que se accede a la lista de categorias
 app.use("/api/productos", require("./rutas/ProductoRutas"));
+app.use("/api/usuarios", require("./rutas/UsuarioRutas"));

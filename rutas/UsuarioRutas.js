@@ -1,4 +1,3 @@
-const ProductoOperaciones = require("../operaciones/ProductoOperaciones");
 const UsuarioOperaciones = require("../operaciones/UsuarioOperaciones");
 const router = require("express").Router();
 
