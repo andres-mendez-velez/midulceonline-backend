@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const categoriaSchema = mongoose.Schema({
     nombre: { type: String, maxLength: 40, required: true, unique: true },
     disponible: { type: Boolean, required: true },
+    descripcion: { type: String, maxLength: 300 },
     imagen: { type: String, maxLength: 40, unique: true }
 });
 

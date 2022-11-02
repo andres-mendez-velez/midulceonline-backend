@@ -59,6 +59,7 @@ CategoriaOperaciones.modificarCategoria = async (req, res) => {
         const categoria = {
             nombre: body.nombre,
             disponible: body.disponible,
+            descripcion: body.descripcion,
             imagen: body.imagen
         };
         console.log(categoria);
