@@ -78,7 +78,12 @@ CategoriaOperaciones.eliminarCategoria = async (req, res) => {
     try {
         const id = req.params.id;
         const categoriaBorrada = await CategoriaModelo.findByIdAndDelete(id);
-        res.status(200).send(categoriaBorrada);
+        if (categoriaBorrada != null) {
+            res.status(200).send(categoriaBorrada);
+        }
+        else {
+            res.status(404).send("No hay datos.")
+        }
     } catch (error) {
         res.status(400).send("Mala petición " + error);
     }
