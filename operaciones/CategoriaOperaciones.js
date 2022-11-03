@@ -22,6 +22,7 @@ CategoriaOperaciones.consultarCategorias = async (req, res) => {
             listaCategorias = await CategoriaModelo.find({
                 "$or": [
                     { "nombre": { $regex: filtro.q, $options: "i" } },
+                    { "descripcion": { $regex: filtro.q, $options: "i" } }
                 ]
             });
         }
