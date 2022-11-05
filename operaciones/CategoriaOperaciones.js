@@ -10,7 +10,7 @@ CategoriaOperaciones.crearCategorias = async (req, res) => {
         const categoriaGuardada = await categoria.save();
         res.status(201).send(categoriaGuardada); // 201 => Se pudo crear la información encargada
     } catch (error) {
-        res.status(400).send("Mala petición. " + error);
+        if (error.code === 11000) res.status(400).json({tipoError: "dato duplicado", dato: error.keyValue}); // 11000 es el codigo de error cuando se intenta crear un objeto con una clave unica que ya existe
     }
 };
 
