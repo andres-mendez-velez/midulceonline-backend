@@ -9,7 +9,7 @@ const productoSchema = mongoose.Schema({
     keywords: [{ type: String, maxLength: 15 }],
     disponible: { type: Boolean, required: true },
     categoria: { type: String, maxLength: 40, required: true },
-    imagenes: [{ type: String, maxLength: 40, required: true, unique: true }] // Lista con las url o nombres de las imagenes del producto
+    imagenes: [{ type: String, maxLength: 40 }] // Lista con las url o nombres de las imagenes del producto
 });
 
 module.exports = mongoose.model("productos", productoSchema);
