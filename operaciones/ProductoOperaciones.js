@@ -32,7 +32,7 @@ ProductoOperaciones.consultarProductos = async (req, res) => {
         if (listaProductos.length > 0) {
             res.status(200).send(listaProductos);
         } else {
-            res.status(404).send("No hay datos");
+            res.status(200).send([]);
         }
     } catch (error) {
         res.status(400).send("Mala petición. " + error);
@@ -46,7 +46,7 @@ ProductoOperaciones.consultarProducto = async (req, res) => {
         if (producto != null) {
             res.status(200).send(producto); // Generar status 200 = OK y, enviar la lista de categorias obtenidas
         } else {
-            res.status(404).send("No hay datos."); // Generar status 404 = No encontrado y, enviar un mensaje a la pagina
+            res.status(200).send([]);
         }
     } catch (error) {
         res.status(400).send("Mala petición. " + error); // Peticion mal hecha
@@ -73,7 +73,7 @@ ProductoOperaciones.modificarProducto = async (req, res) => {
         if (productoActualizado != null) {
             res.status(200).send(productoActualizado);
         } else {
-            res.status(404).send("No hay datos.");
+            res.status(200).send([]);
         }
     } catch (error) {
         res.status(400).send("Mala petición. " + error);

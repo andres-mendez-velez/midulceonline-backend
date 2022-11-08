@@ -32,7 +32,7 @@ CategoriaOperaciones.consultarCategorias = async (req, res) => {
         if (listaCategorias.length > 0) {
             res.status(200).send(listaCategorias); // Generar status 200 = OK y, enviar la lista de categorias obtenidas
         } else {
-            res.status(404).send("No hay datos"); // Generar status 404 = No encontrado y, enviar un mensaje a la pagina
+            res.status(200).send([]);
         }
     } catch (error) {
         res.status(400).send("Mala petición. " + error); // Peticion mal hecha
@@ -46,7 +46,7 @@ CategoriaOperaciones.consultarCategoria = async (req, res) => {
         if (categoria != null) {
             res.status(200).send(categoria); // Generar status 200 = OK y, enviar la lista de categorias obtenidas
         } else {
-            res.status(404).send("No hay datos."); // Generar status 404 = No encontrado y, enviar un mensaje a la pagina
+            res.status(200).send([]);
         }
     } catch (error) {
         res.status(400).send("Mala petición. " + error); // Peticion mal hecha
@@ -68,7 +68,7 @@ CategoriaOperaciones.modificarCategoria = async (req, res) => {
         if (categoriaActualizada != null) {
             res.status(200).send(categoriaActualizada);
         } else{
-            res.status(404).send("No hay datos.");
+            res.status(200).send([]);
         }
     } catch (error) {
         res.status(400).send("Mala petición. " + error);
@@ -83,7 +83,7 @@ CategoriaOperaciones.eliminarCategoria = async (req, res) => {
             res.status(200).send(categoriaBorrada);
         }
         else {
-            res.status(404).send("No hay datos.")
+            res.status(200).send([]);
         }
     } catch (error) {
         res.status(400).send("Mala petición " + error);
