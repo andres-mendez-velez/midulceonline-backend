@@ -10,7 +10,7 @@ CategoriaOperaciones.crearCategorias = async (req, res) => {
         const categoriaGuardada = await categoria.save();
         res.status(201).send(categoriaGuardada); // 201 => Se pudo crear la información encargada
     } catch (error) {
-        if (error.code === 11000) res.status(400).json({tipoError: "dato duplicado", dato: error.keyValue}); // 11000 es el codigo de error cuando se intenta crear un objeto con una clave unica que ya existe
+        if (error.code === 11000) res.status(400).json({ tipoError: "dato duplicado", dato: error.keyValue }); // 11000 es el codigo de error cuando se intenta crear un objeto con una clave unica que ya existe
     }
 };
 
@@ -29,13 +29,9 @@ CategoriaOperaciones.consultarCategorias = async (req, res) => {
         else {
             listaCategorias = await CategoriaModelo.find(filtro);
         }
-        if (listaCategorias.length > 0) {
-            res.status(200).send(listaCategorias); // Generar status 200 = OK y, enviar la lista de categorias obtenidas
-        } else {
-            res.status(200).send([]);
-        }
+        res.status(200).send(listaCategorias); // Generar status 200 = OK y, enviar la lista de categorias obtenidas
     } catch (error) {
-        res.status(400).send("Mala petición. " + error); // Peticion mal hecha
+        res.status(400).json(error); // Peticion mal hecha
     }
 }; // Como los metodos trabajan con el protocolo http se va a estar haciendo request y response, ademas de que al usarse una conexion a un BD estos metodos son promises
 
@@ -43,13 +39,9 @@ CategoriaOperaciones.consultarCategoria = async (req, res) => {
     try {
         const id = req.params.id; // Los params son los parametros que se envian en la url: ..../id=123
         const categoria = await CategoriaModelo.findById(id);
-        if (categoria != null) {
-            res.status(200).send(categoria); // Generar status 200 = OK y, enviar la lista de categorias obtenidas
-        } else {
-            res.status(200).send([]);
-        }
+        res.status(200).send(categoria); // Generar status 200 = OK y, enviar la lista de categorias obtenidas
     } catch (error) {
-        res.status(400).send("Mala petición. " + error); // Peticion mal hecha
+        res.status(400).json(error); // Peticion mal hecha
     }
 };
 
@@ -63,15 +55,15 @@ CategoriaOperaciones.modificarCategoria = async (req, res) => {
             descripcion: body.descripcion,
             imagen: body.imagen
         };
-        console.log(categoria);
+        /*console.log(categoria);*/
         const categoriaActualizada = await CategoriaModelo.findByIdAndUpdate(id, categoria, { new: true });
         if (categoriaActualizada != null) {
             res.status(200).send(categoriaActualizada);
-        } else{
-            res.status(200).send([]);
+        } else {
+            res.status(404).send("No se encontraron datos.");
         }
     } catch (error) {
-        res.status(400).send("Mala petición. " + error);
+        res.status(400).json(error);
     }
 };
 
@@ -81,12 +73,11 @@ CategoriaOperaciones.eliminarCategoria = async (req, res) => {
         const categoriaBorrada = await CategoriaModelo.findByIdAndDelete(id);
         if (categoriaBorrada != null) {
             res.status(200).send(categoriaBorrada);
-        }
-        else {
-            res.status(200).send([]);
-        }
+        } else {
+            res.status(404).send("No se encontraron datos.");
+        }        
     } catch (error) {
-        res.status(400).send("Mala petición " + error);
+        res.status(400).json(error);
     }
 };
 

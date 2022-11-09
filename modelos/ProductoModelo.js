@@ -6,7 +6,7 @@ const productoSchema = mongoose.Schema({
     presentacion: { type: String, maxLength: 40, required: true }, // Cantidad de unidades y peso o volumen
     cantidad: {type: Number, required: true},
     precio: { type: Number, required: true }, // Valor con decimales
-    keywords: [{ type: String, maxLength: 15 }],
+    keywords: [{ type: String, maxLength: 100 }],
     disponible: { type: Boolean, required: true },
     categoria: { type: String, maxLength: 40, required: true },
     imagenes: [{ type: String, maxLength: 40 }] // Lista con las url o nombres de las imagenes del producto

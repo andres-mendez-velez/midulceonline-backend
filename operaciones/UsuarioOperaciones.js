@@ -1,16 +1,25 @@
 const UsuarioModelo = require("../modelos/UsuarioModelo");
+const bcrypt = require("bcrypt");
+
 const UsuarioOperaciones = {};
+
+const cifrarPassword = async (password) => {
+    const SALT_TIMES = 10;
+    const salt = await bcrypt.genSalt(SALT_TIMES);
+    return await bcrypt.hash(password, salt);
+}
 
 UsuarioOperaciones.crearUsuario = async (req, res) => {
     try {
         const objeto = req.body;
+        objeto.password = await cifrarPassword(objeto.password);
         const usuario = new UsuarioModelo(objeto);
         const usuarioGuardado = await usuario.save();
         res.status(201).send(usuarioGuardado);
     } catch (error) {
-        res.status(400).send("Mala petición. " + error);
+        res.status(400).json(error);
     }
-};
+}
 
 UsuarioOperaciones.consultarUsuarios = async (req, res) => {
     try {
@@ -20,69 +29,69 @@ UsuarioOperaciones.consultarUsuarios = async (req, res) => {
             listaUsuarios = await UsuarioModelo.find({
                 "$or": [
                     { "nombres": { $regex: filtro.q, $options: "i" } },
-                    { "apellidos": { $regex: filtro.q, $options: "i" } }
+                    { "apellidos": { $regex: filtro.q, $options: "i" } },
+                    { "documento": { $regex: filtro.q, $options: "i" } },
+                    { "direccion": { $regex: filtro.q, $options: "i" } },
+                    { "correo": { $regex: filtro.q, $options: "i" } },
+                    { "telefono": { $regex: filtro.q, $options: "i" } }
                 ]
             });
         } else {
             listaUsuarios = await UsuarioModelo.find(filtro);
         }
-        if (listaUsuarios.length > 0) {
-            res.status(200).send(listaUsuarios);
-        } else {
-            res.status(404).send("No hay datos");
-        }
+        res.status(200).send(listaUsuarios);
     } catch (error) {
-        res.status(400).send("Mala petición. " + error);
+        res.status(400).json(error);
     }
-};
+}
 
 UsuarioOperaciones.consultarUsuario = async (req, res) => {
     try {
         const id = req.params.id; // Los params son los parametros que se envian en la url: ..../id=123
         const usuario = await UsuarioModelo.findById(id);
-        if (usuario != null) {
-            res.status(200).send(usuario); // Generar status 200 = OK y, enviar la lista de categorias obtenidas
-        } else {
-            res.status(404).send("No hay datos."); // Generar status 404 = No encontrado y, enviar un mensaje a la pagina
-        }
+        res.status(200).send(usuario);
     } catch (error) {
-        res.status(400).send("Mala petición. " + error); // Peticion mal hecha
+        res.status(400).json(error); // Peticion mal hecha
     }
-};
+}
 
 UsuarioOperaciones.modificarUsuario = async (req, res) => {
     try {
         const id = req.params.id;
         const body = req.body;
-        const usuario = {
+        if (body.password != null) {
+            body.password = await cifrarPassword(body.password);
+        }
+        const datosUsuario = {
             nombres: body.nombres,
             apellidos: body.apellidos,
+            documento: body.documento,
             direccion: body.direccion,
             telefono: body.telefono,
             correo: body.correo,
-            password: body.password
+            password: body.password,
+            admin: body.admin
         };
-        console.log(usuario);
-        const usuarioActualizado = await UsuarioModelo.findByIdAndUpdate(id, usuario, { new: true });
+        const usuarioActualizado = await UsuarioModelo.findByIdAndUpdate(id, datosUsuario, { new: true });
         if (usuarioActualizado != null) {
             res.status(200).send(usuarioActualizado);
         } else {
-            res.status(404).send("No hay datos.");
+            res.status(404).send("No se encontraron datos.");
         }
     } catch (error) {
-        res.status(400).send("Mala petición. " + error);
+        res.status(400).json(error);
     }
-};
+}
 
 UsuarioOperaciones.eliminarUsuario = async (req, res) => {
     try {
         const id = req.params.id;
         const usuarioBorrado = await UsuarioModelo.findByIdAndDelete(id);
-        res.status(200).send(usuarioBorrado);
+        res.status(200).send(usuarioBorrado); // Agregar if...
     } catch (error) {
-        res.status(400).send("Mala petición " + error);
+        res.status(400).json(error);
     }
-};
+}
 
 // Exportacion del archivo:
 module.exports = UsuarioOperaciones;
