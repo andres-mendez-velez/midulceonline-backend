@@ -11,9 +11,9 @@ const cifrarPassword = async (password) => {
 
 UsuarioOperaciones.crearUsuario = async (req, res) => {
     try {
-        const objeto = req.body;
-        objeto.password = await cifrarPassword(objeto.password);
-        const usuario = new UsuarioModelo(objeto);
+        const body = req.body;
+        body.password = await cifrarPassword(body.password);
+        const usuario = new UsuarioModelo(body);
         const usuarioGuardado = await usuario.save();
         res.status(201).send(usuarioGuardado);
     } catch (error) {
