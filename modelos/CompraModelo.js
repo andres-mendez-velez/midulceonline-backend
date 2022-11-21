@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const carritoSchema = mongoose.Schema({
+const compraSchema = mongoose.Schema({
     nombreUser: { type: String, required: true },
     apellidoUser: { type: String, required: true },
     documentoUser: { type: String, required: true, unique: true },
@@ -9,8 +9,9 @@ const carritoSchema = mongoose.Schema({
     correo: { type: String, required: true, unique: true },
     nombreProd: { type: String, required: true, unique: true },
     cantidadPedida: { type: Number, required: true },
+    precioUnitario: { type: Number, required: true },
     precioTotal: { type: Number, required: true },
     estadoCompra: { type: String, required: true }
 });
 
-module.exports = mongoose.model("compras", carritoSchema);
+module.exports = mongoose.model("compras", compraSchema);

@@ -27,3 +27,4 @@ app.use("/api/categorias", require("./rutas/CategoriaRutas")); // (Ruta general)
 app.use("/api/productos", require("./rutas/ProductoRutas"));
 app.use("/api/usuarios", require("./rutas/UsuarioRutas"));
 app.use("/api/login", require("./rutas/LoginRutas"));
+app.use("/api/compras", require("./rutas/CompraRutas"));

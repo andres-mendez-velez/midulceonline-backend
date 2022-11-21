@@ -8,7 +8,7 @@ ProductoOperaciones.crearProducto = async (req, res) => {
         const productoGuardado = await producto.save();
         res.status(201).send(productoGuardado);
     } catch (error) {
-        res.status(400).send("Mala petición. " + error)
+        res.status(400).send("Mala petición. " + error);
     }
 };
 
@@ -28,14 +28,9 @@ ProductoOperaciones.consultarProductos = async (req, res) => {
         } else {
             listaProductos = await ProductoModelo.find(filtro);
         }
-
-        if (listaProductos.length > 0) {
-            res.status(200).send(listaProductos);
-        } else {
-            res.status(200).send([]);
-        }
+        res.status(200).send(listaProductos);
     } catch (error) {
-        res.status(400).send("Mala petición. " + error);
+        res.status(400).json(error);
     }
 };
 
@@ -43,13 +38,9 @@ ProductoOperaciones.consultarProducto = async (req, res) => {
     try {
         const id = req.params.id; // Los params son los parametros que se envian en la url: ..../id=123
         const producto = await ProductoModelo.findById(id);
-        if (producto != null) {
-            res.status(200).send(producto); // Generar status 200 = OK y, enviar la lista de categorias obtenidas
-        } else {
-            res.status(200).send([]);
-        }
+        res.status(200).send(producto); // Generar status 200 = OK y, enviar la lista de categorias obtenidas
     } catch (error) {
-        res.status(400).send("Mala petición. " + error); // Peticion mal hecha
+        res.status(400).json(error); // Peticion mal hecha
     }
 };
 
